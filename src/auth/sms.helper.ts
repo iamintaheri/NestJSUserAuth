@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as Kavenegar from 'kavenegar';
-import * as config from 'config'
+import * as config from 'config';
 
 enum templates {
   'resetPassword' = 'resetCode',
