@@ -2,13 +2,22 @@ import { DateTime } from 'luxon';
 import * as bcrypt from 'bcrypt';
 import * as config from 'config';
 import { Exclude, Type, Expose } from 'class-transformer';
-import { Entity, PrimaryKey, Property, Unique } from '@mikro-orm/core';
+import {
+  Entity,
+  PrimaryKey,
+  Property,
+  Unique,
+  EntityRepositoryType,
+} from '@mikro-orm/core';
+import { UserRepository } from './user.repository';
 
 const freeDays = config.get('user').days;
 
-@Entity({ collection: 'users' })
+@Entity({ collection: 'users', customRepository: () => UserRepository })
 @Unique({ properties: ['phone'] })
 export class User {
+  [EntityRepositoryType]?: UserRepository;
+
   @Type(() => String)
   @PrimaryKey()
   _id: string;
