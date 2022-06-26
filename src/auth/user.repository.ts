@@ -60,6 +60,15 @@ export class UserRepository extends EntityRepository<User> {
       throw new InternalServerErrorException('Unable to Verify User!');
     }
   }
+  async setVerifyCode(user: User): Promise<User> {
+    try {
+      user.code = this.genSmsCode(10000, 99999);
+      await this.persistAndFlush(user);
+      return user;
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
+  }
 
   private genHashedPassword(password: string, salt: string): Promise<string> {
     return bcrypt.hash(password, salt);
