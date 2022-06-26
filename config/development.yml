@@ -1,0 +1,8 @@
+db:
+  type : 'mongo'
+  url : 'mongodb://admin:password@localhost:27017/nestAuth?authSource=admin'
+  synchronize : true
+  useUnifiedTechnology : true
+  debug : true
+jwt:
+  secret : 'myTopSecret!@'

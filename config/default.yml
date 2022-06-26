@@ -1,0 +1,9 @@
+db:
+  type : 'mongo'
+  debug : true
+jwt:
+  secret : 'myTopSecret!@'
+  expiresIn : 259200
+
+user:
+  days : 4
