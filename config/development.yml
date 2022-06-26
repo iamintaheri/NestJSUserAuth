@@ -6,3 +6,5 @@ db:
   debug : true
 jwt:
   secret : 'myTopSecret!@'
+kavenegarApi:
+  token : "fakeToken"

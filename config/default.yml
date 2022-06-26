@@ -7,3 +7,6 @@ jwt:
 
 user:
   days : 4
+
+kavenegarApi:
+  token : "FakeToken"
