@@ -69,6 +69,15 @@ export class UserRepository extends EntityRepository<User> {
       throw new InternalServerErrorException();
     }
   }
+  async setNewPass(user: User, newPassword: string) {
+    try {
+      if (!user.salt) user.salt = await bcrypt.genSalt();
+      user.password = await this.genHashedPassword(newPassword, user.salt);
+      await this.persistAndFlush(user);
+    } catch (error) {
+      throw new InternalServerErrorException('Unable to Set new Password!');
+    }
+  }
 
   private genHashedPassword(password: string, salt: string): Promise<string> {
     return bcrypt.hash(password, salt);
