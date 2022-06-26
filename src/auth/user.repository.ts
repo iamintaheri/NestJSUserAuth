@@ -52,6 +52,15 @@ export class UserRepository extends EntityRepository<User> {
     }
   }
 
+  async VerifyUser(user: User) {
+    try {
+      user.is_verified = true;
+      await this.persistAndFlush(user);
+    } catch (error) {
+      throw new InternalServerErrorException('Unable to Verify User!');
+    }
+  }
+
   private genHashedPassword(password: string, salt: string): Promise<string> {
     return bcrypt.hash(password, salt);
   }
