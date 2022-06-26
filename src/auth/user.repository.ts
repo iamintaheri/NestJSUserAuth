@@ -69,6 +69,15 @@ export class UserRepository extends EntityRepository<User> {
       throw new InternalServerErrorException();
     }
   }
+
+  async setSentSmsDate(user: User): Promise<void> {
+    try {
+      user.last_sms = DateTime.utc();
+      await this.persistAndFlush(user);
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
+  }
   async setNewPass(user: User, newPassword: string) {
     try {
       if (!user.salt) user.salt = await bcrypt.genSalt();
