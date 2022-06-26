@@ -1,6 +1,8 @@
 import { UserRegDto } from './dto/user-reg.dto';
 import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
+import { DateTime } from 'luxon';
+import * as config from 'config';
 
 import {
   ConflictException,
@@ -26,6 +28,27 @@ export class UserRepository extends EntityRepository<User> {
       if (error.code == 11000)
         throw new ConflictException('phone already exists');
       else throw new InternalServerErrorException();
+    }
+  }
+
+  // for unverified user at first signUp
+  async signUpAgain(user: User, registerDto: UserRegDto): Promise<User> {
+    const { phone, password, name } = registerDto;
+    user.phone = phone;
+    user.name = name;
+    const salt = await bcrypt.genSalt();
+    user.password = await this.genHashedPassword(password, salt);
+    user.salt = salt;
+    user.code = this.genSmsCode(10000, 99999);
+    const freeDays = config.get('user').days;
+    user.expire = DateTime.utc().plus({ days: freeDays });
+
+    try {
+      await this.persistAndFlush(user);
+      return user;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
     }
   }
 
