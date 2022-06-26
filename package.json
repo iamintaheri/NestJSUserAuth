@@ -32,7 +32,8 @@
     "class-validator": "^0.13.1",
     "config": "^3.3.6",
     "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0"
+    "passport-jwt": "^4.0.0",
+    "kavenegar": "^1.1.4"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
