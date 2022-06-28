@@ -32,12 +32,12 @@ export class AuthService {
     if (user) user = await this.userRepo.signUpAgain(user, registerDto);
     else user = await this.userRepo.signUp(registerDto);
 
-    const result = await SmsHelper.sendVerification(
-      phone,
-      user.code.toString(),
-      SmsHelper.template.signUp,
-    );
-    if (!result) throw new InternalServerErrorException('sms');
+    // const result = await SmsHelper.sendVerification(
+    //   phone,
+    //   user.code.toString(),
+    //   SmsHelper.template.signUp,
+    // );
+    // if (!result) throw new InternalServerErrorException('sms');
 
     await this.userRepo.setSentSmsDate(user);
     const payload = { phone, is_temp: true };
@@ -89,12 +89,12 @@ export class AuthService {
     if (minutes < 2) throw new ForbiddenException('Wait 2minutes!!');
 
     const new_code = (await this.userRepo.setVerifyCode(user)).code;
-    const result = await SmsHelper.sendVerification(
-      phone,
-      new_code.toString(),
-      SmsHelper.template.signUp,
-    );
-    if (!result) throw new InternalServerErrorException('Failed SMS!');
+    // const result = await SmsHelper.sendVerification(
+    //   phone,
+    //   new_code.toString(),
+    //   SmsHelper.template.signUp,
+    // );
+    // if (!result) throw new InternalServerErrorException('Failed SMS!');
 
     await this.userRepo.setSentSmsDate(user);
   }
