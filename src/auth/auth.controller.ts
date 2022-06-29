@@ -27,9 +27,13 @@ export class AuthController {
   async signUp(@Body(ValidationPipe) registerDto: UserRegDto, @Req() req) {
     const token = await this.authService.signUp(registerDto);
     const expireSeconds = config.get('jwt.expiresIn');
+    // req.res.setHeader(
+    //   'Set-Cookie',
+    //   `${token};HttpOnly;Max-Age=${expireSeconds};SameSite=None;Secure`,
+    // );
     req.res.setHeader(
       'Set-Cookie',
-      `${token};HttpOnly;Max-Age=${expireSeconds};SameSite=None;Secure`,
+      `${token};HttpOnly;Max-Age=${expireSeconds};SameSite=None;`,
     );
   }
 
@@ -68,9 +72,13 @@ export class AuthController {
       req.user.phone,
     );
     const expireSeconds = config.get('jwt.expiresIn');
+    // req.res.setHeader(
+    //   'Set-Cookie',
+    //   `${data.token};HttpOnly;Max-Age=${expireSeconds};Path=/;SameSite=None;Secure`,
+    // );
     req.res.setHeader(
       'Set-Cookie',
-      `${data.token};HttpOnly;Max-Age=${expireSeconds};Path=/;SameSite=None;Secure`,
+      `${data.token};HttpOnly;Max-Age=${expireSeconds};Path=/;SameSite=None;`,
     );
     return data.user;
   }
@@ -98,9 +106,13 @@ export class AuthController {
   @Get('/logout')
   @UseGuards(AuthGuard())
   async logout(@Req() req) {
+    // req.res.setHeader(
+    //   'Set-Cookie',
+    //   `=${req.headers['cookie']};HttpOnly;Max-Age=0;Path=/;SameSite=None;Secure`,
+    // );
     req.res.setHeader(
       'Set-Cookie',
-      `=${req.headers['cookie']};HttpOnly;Max-Age=0;Path=/;SameSite=None;Secure`,
+      `=${req.headers['cookie']};HttpOnly;Max-Age=0;Path=/;SameSite=None;`,
     );
   }
 }
