@@ -10,6 +10,7 @@ import {
   EntityRepositoryType,
 } from '@mikro-orm/core';
 import { UserRepository } from './user.repository';
+import { ObjectId } from '@mikro-orm/mongodb';
 
 const freeDays = config.get('user').days;
 
@@ -18,9 +19,8 @@ const freeDays = config.get('user').days;
 export class User {
   [EntityRepositoryType]?: UserRepository;
 
-  @Type(() => String)
   @PrimaryKey()
-  _id: string;
+  _id!: ObjectId;
 
   @Property()
   name: string;
@@ -42,7 +42,7 @@ export class User {
 
   @Exclude({ toPlainOnly: true })
   @Property({ hidden: true })
-  last_sms: Date;
+  last_sms: Date = DateTime.utc();;
 
   @Exclude({ toPlainOnly: true })
   @Property({ hidden: true })
