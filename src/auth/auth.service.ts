@@ -108,12 +108,13 @@ export class AuthService {
     if (!user) throw new NotFoundException('User not Found!');
     const newPass = this.genNewPass(10);
     await this.userRepo.setNewPass(user, newPass);
-    const result = await SmsHelper.sendVerification(
-      phone,
-      newPass,
-      SmsHelper.template.resetPassword,
-    );
-    if (!result) throw new InternalServerErrorException('Failed SMS!');
+    console.log(newPass);
+    // const result = await SmsHelper.sendVerification(
+    //   phone,
+    //   newPass,
+    //   SmsHelper.template.resetPassword,
+    // );
+    //if (!result) throw new InternalServerErrorException('Failed SMS!');
   }
 
   async changePassword(resetPasswordDto: ResetPasswordDto, phone: string) {
